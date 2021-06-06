@@ -1,0 +1,23 @@
+version: '3.8'
+
+services: 
+  mysqldb:
+    image: mysql:5.7
+    restart: always
+    env_file: ../.env
+    environment:
+      MYSQL_ROOT_PASSWORD: '123123'
+      MYSQL_DATABASE: autoescuela
+      MYSQL_USER: autoescuela
+      MYSQL_PASSWORD: '123123'
+      MYSQL_ROOT_HOST: '172.24.0.0'
+    ports:
+      - 3306:3306
+    volumes: 
+      - db-config:/etc/mysql
+      - db-data:/var/lib/mysql
+      - ./db/backup/files/:/data_backup/data
+
+volumes: 
+  db-config:
+  db-data:
