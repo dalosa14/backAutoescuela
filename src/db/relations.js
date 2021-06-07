@@ -8,8 +8,8 @@ User.hasMany(TestPackage,{as:'testPackages',foreignKey:"ownerId"})
 TestPackage.belongsTo(User,{as:'owner'})
 
 //relacion usuario paquetes de tests N:N
-// User.belongsToMany(TestPackage,{through: "User_testPackage"})
-// TestPackage.belongsToMany(User,{through: "User_testPackage"})
+User.belongsToMany(TestPackage,{through: "User_testPackage",as:'testPackageToUser'})
+TestPackage.belongsToMany(User,{through: "User_testPackage", as:'userr'})
 
 TestPackage.hasMany(Test,{as:'tests'} )
 Test.belongsTo(TestPackage, {as:'testPackage'})

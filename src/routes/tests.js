@@ -64,10 +64,32 @@ router.post("/createAnswer", isAValidToken, async (req, res) => {
   answerObject.setQuestion(questionId)
   res.json({ success: true,data:answerObject,msg:'pregunta creada' });
 });
+router.post("/addTestPackageToUser", isAValidToken, async (req, res) => {
+  let { packageId } = req.body;
+
+  let user = await User.findOne({where:{id:req.user.id}})
+  let testpackage = await Testpackage.findOne({where:{id:packageId}})
+  console.log(user,testpackage);
+  let added = user.addTestPackageToUser(testpackage)
+ 
+  res.json({ success: true,data:added,msg:'paquete añadido' });
+});
 
 router.get("/getAllTestPackages", async (req, res) => {
   let testspackages = await Testpackage.findAll({include: { all: true, nested: true}})
   res.json({ success: true ,data:testspackages});
+});
+router.get("/getBuyedTestPackages",isAValidToken, async (req, res) => {
+  let user = await User.findOne({where:{id:req.user.id}})
+  let testPackages = await  user.getTestPackageToUser()
+
+  res.json({ success: true ,data:testPackages,msg:'paquetes comprados disponibles'});
+});
+router.get("/getAllTestsOfPackage/:id",isAValidToken, async (req, res) => {
+  let packageId = req.params.id
+  let testpackage = await Testpackage.findOne({where:{id:packageId}})
+   let tests = await testpackage.getTests()
+  res.json({ success: true ,data:tests,msg:'tests del pack de tests enviados correctamente'});
 });
 
 /**
