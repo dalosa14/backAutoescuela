@@ -29,7 +29,7 @@ app.use((0, _cors["default"])({
   origin: ["http://localhost:3000"]
 }));
 app.use((0, _helmet["default"])());
-app.set("port", 5000);
+app.set("port", process.env.PORT || 5000);
 app.use("/user", _user["default"]);
 app.use("/tests", _tests["default"]);
 var swaggerDefinition = {
