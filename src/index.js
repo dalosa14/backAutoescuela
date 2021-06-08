@@ -1,7 +1,8 @@
 import express from "express";
 import user from "./routes/user";
 import tests from "./routes/tests";
-import "@babel/core";
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 const sequelize = require("./db/dbConnect");
 import relations from './db/relations'
 import cors from "cors";
