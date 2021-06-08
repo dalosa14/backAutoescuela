@@ -17,7 +17,7 @@ app.use(
   })
 );
 app.use(helmet());
-app.set("port", 5000);
+app.set("port", process.env.PORT || 5000);
 app.use("/user", user);
 app.use("/tests", tests);
 const swaggerDefinition = {
