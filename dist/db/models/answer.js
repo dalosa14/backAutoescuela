@@ -22,7 +22,7 @@ var _require = require('sequelize'),
     Model = _require.Model,
     DataTypes = _require.DataTypes;
 
-var sequelize = require("../dbConnect");
+var sequelize = require('../dbConnect');
 
 var answer = /*#__PURE__*/function (_Model) {
   _inherits(answer, _Model);
