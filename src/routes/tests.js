@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../db/models/user");
-const Testpackage = require("../db/models/testPackage");
-const Test = require("../db/models/test");
-const Question = require("../db/models/question");
-const Answer = require("../db/models/answer");
-const { isAValidToken } = require("../middlewares/validations");
+const User = require("../db/models/user.js");
+const Testpackage = require("../db/models/testPackage.js");
+const Test = require("../db/models/test.js");
+const Question = require("../db/models/question.js");
+const Answer = require("../db/models/answer.js");
+const { isAValidToken } = require("../middlewares/validations.js");
 const validateUrl =require("../validations/validateUrl.js")
 
 //crear paquete de tests

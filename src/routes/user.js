@@ -4,9 +4,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const key = "123123";
-const User = require("../db/models/user");
-const Testpackage = require("../db/models/testpackage");
-const { isAValidToken } = require("../middlewares/validations");
+const User = require("../db/models/user.js");
+const Testpackage = require("../db/models/testpackage.js");
+const { isAValidToken } = require("../middlewares/validations.js");
 const validateEmail =require("../validations/validateEmail.js")
 router.post("/register", async (req, res) => {
   try {

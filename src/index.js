@@ -1,10 +1,10 @@
 import express from "express";
-import user from "./routes/user";
-import tests from "./routes/tests";
+import user from "./routes/user.js";
+import tests from "./routes/tests.js";
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 const sequelize = require("./db/dbConnect");
-import relations from './db/relations'
+import relations from './db/relations.js'
 import cors from "cors";
 import helmet from "helmet";
 const swaggerUi = require("swagger-ui-express");

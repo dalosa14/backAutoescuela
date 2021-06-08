@@ -8,17 +8,17 @@ var express = require("express");
 
 var router = express.Router();
 
-var User = require("../db/models/user");
+var User = require("../db/models/user.js");
 
-var Testpackage = require("../db/models/testPackage");
+var Testpackage = require("../db/models/testPackage.js");
 
-var Test = require("../db/models/test");
+var Test = require("../db/models/test.js");
 
-var Question = require("../db/models/question");
+var Question = require("../db/models/question.js");
 
-var Answer = require("../db/models/answer");
+var Answer = require("../db/models/answer.js");
 
-var _require = require("../middlewares/validations"),
+var _require = require("../middlewares/validations.js"),
     isAValidToken = _require.isAValidToken;
 
 var validateUrl = require("../validations/validateUrl.js"); //crear paquete de tests
