@@ -1,10 +1,8 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-
-var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var express = require("express");
 
@@ -27,10 +25,10 @@ var validateUrl = require("../validations/validateUrl.js"); //crear paquete de t
 
 
 router.post("/createTestPackage", isAValidToken, /*#__PURE__*/function () {
-  var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
     var _req$body, name, title, img, desc, price, testpackageData, testPackage, user;
 
-    return _regenerator["default"].wrap(function _callee$(_context) {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -119,10 +117,10 @@ router.post("/createTestPackage", isAValidToken, /*#__PURE__*/function () {
 }()); //crear test
 
 router.post("/createTest", isAValidToken, /*#__PURE__*/function () {
-  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
     var _req$body2, name, img, testpackageId, testPayload, test;
 
-    return _regenerator["default"].wrap(function _callee2$(_context2) {
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -187,10 +185,10 @@ router.post("/createTest", isAValidToken, /*#__PURE__*/function () {
 }()); //crear pregunta
 
 router.post("/createQuestion", isAValidToken, /*#__PURE__*/function () {
-  var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
     var _req$body3, name, question, img, testId, questionPayload, questionModel;
 
-    return _regenerator["default"].wrap(function _callee3$(_context3) {
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -244,10 +242,10 @@ router.post("/createQuestion", isAValidToken, /*#__PURE__*/function () {
 }()); //crear respuesta
 
 router.post("/createAnswer", isAValidToken, /*#__PURE__*/function () {
-  var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
     var _req$body4, isTrue, name, answer, questionId, answerPayload, answerObject;
 
-    return _regenerator["default"].wrap(function _callee4$(_context4) {
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -282,9 +280,9 @@ router.post("/createAnswer", isAValidToken, /*#__PURE__*/function () {
   };
 }());
 router.post("/addTestPackageToUser", isAValidToken, /*#__PURE__*/function () {
-  var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
     var packageId, user, testpackage, added;
-    return _regenerator["default"].wrap(function _callee5$(_context5) {
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -328,9 +326,9 @@ router.post("/addTestPackageToUser", isAValidToken, /*#__PURE__*/function () {
   };
 }());
 router.get("/getAllTestPackages", /*#__PURE__*/function () {
-  var _ref6 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
     var testspackages;
-    return _regenerator["default"].wrap(function _callee6$(_context6) {
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
@@ -362,9 +360,9 @@ router.get("/getAllTestPackages", /*#__PURE__*/function () {
   };
 }());
 router.get("/getBuyedTestPackages", isAValidToken, /*#__PURE__*/function () {
-  var _ref7 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
     var user, testPackages;
-    return _regenerator["default"].wrap(function _callee7$(_context7) {
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
@@ -401,9 +399,9 @@ router.get("/getBuyedTestPackages", isAValidToken, /*#__PURE__*/function () {
   };
 }());
 router.get("/getAllTestsOfPackage/:id", isAValidToken, /*#__PURE__*/function () {
-  var _ref8 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
     var packageId, testpackage, tests;
-    return _regenerator["default"].wrap(function _callee8$(_context8) {
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
@@ -441,9 +439,9 @@ router.get("/getAllTestsOfPackage/:id", isAValidToken, /*#__PURE__*/function () 
   };
 }());
 router.get("/getAllQuestionsAndAnswersOfTest/:testId", isAValidToken, /*#__PURE__*/function () {
-  var _ref9 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(req, res) {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
     var testId, questionsAndAnswers;
-    return _regenerator["default"].wrap(function _callee9$(_context9) {
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
@@ -480,9 +478,9 @@ router.get("/getAllQuestionsAndAnswersOfTest/:testId", isAValidToken, /*#__PURE_
   };
 }());
 router.get("/getAllAnswersOfQuestion/:QuestionId", isAValidToken, /*#__PURE__*/function () {
-  var _ref10 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(req, res) {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
     var QuestionId, Questions, answers;
-    return _regenerator["default"].wrap(function _callee10$(_context10) {
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
@@ -520,9 +518,9 @@ router.get("/getAllAnswersOfQuestion/:QuestionId", isAValidToken, /*#__PURE__*/f
   };
 }());
 router.get("/getOwnedTestPackages", isAValidToken, /*#__PURE__*/function () {
-  var _ref11 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
+  var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
     var profile;
-    return _regenerator["default"].wrap(function _callee11$(_context11) {
+    return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
