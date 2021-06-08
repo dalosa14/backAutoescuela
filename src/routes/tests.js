@@ -6,11 +6,21 @@ const Test = require("../db/models/test");
 const Question = require("../db/models/question");
 const Answer = require("../db/models/answer");
 const { isAValidToken } = require("../middlewares/validations");
+const validateUrl =require("../validations/validateUrl.js")
 
 //crear paquete de tests
 router.post("/createTestPackage", isAValidToken, async (req, res) => {
   let { name, title, img, desc, price } = req.body;
-  console.log(req.body);
+  if(img != ''){
+    
+    if (!validateUrl(img)) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        msg: "Url no valida",
+      });
+    }
+  }
   if(name == ''|| title == '' ||  desc == '' ){
     return res.status(400).json({
       success: false,
@@ -33,7 +43,9 @@ router.post("/createTestPackage", isAValidToken, async (req, res) => {
     price,
   };
   let testPackage = await Testpackage.create(testpackageData);
+  let user = await User.findByPk(req.user.id);
   await testPackage.setOwner(req.user.id);
+  user.addTestPackageToUser(testPackage)
   return res.status(201).json({
     success: true,
     data: testPackage,
@@ -43,6 +55,17 @@ router.post("/createTestPackage", isAValidToken, async (req, res) => {
 //crear test
 router.post("/createTest", isAValidToken, async (req, res) => {
   let { name,  img, testpackageId } = req.body;
+  
+  if(img != ''){
+    
+    if (!validateUrl(img)) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        msg: "Url no valida",
+      });
+    }
+  }
   if(!name  || !testpackageId ){
     return res.status(400).json({
       success: false,
@@ -62,7 +85,16 @@ router.post("/createTest", isAValidToken, async (req, res) => {
 //crear pregunta
 router.post("/createQuestion", isAValidToken, async (req, res) => {
   let { name,question , img, testId } = req.body;
-
+  if(img != ''){
+    
+    if (!validateUrl(img)) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        msg: "Url no valida",
+      });
+    }
+  }
   let questionPayload = {
     name,
     question,

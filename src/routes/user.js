@@ -7,7 +7,7 @@ const key = "123123";
 const User = require("../db/models/user");
 const Testpackage = require("../db/models/testpackage");
 const { isAValidToken } = require("../middlewares/validations");
-const validateEmail =require("../validateEmail")
+const validateEmail =require("../validations/validateEmail.js")
 router.post("/register", async (req, res) => {
   try {
     let { username, email, password, rePassword } = req.body;
@@ -87,38 +87,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-/**
- * @swagger
- * /user/register:
- *   post:
- *     summary: registro.
- *     description: enviamos los datos de registro al servidor y si los datos son correctos se creará el usuario correspondiente.
- *     parameters:
- *       name: email
- *       required: true
- *       description: El email lde un usuario existente.
- *       schema:
- *         type: string
- *     responses:
- *       200:
- *         description: nos devuelve la información de email y usuario agregados.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 msg:
- *                   type: string
- *                   example: "logueo compleatado"
- *                 data:
- *                   type: object
- *                   example: {user:object,token:string}
- *                   description: nos devuelve los datos que sean necesarios.
- *                 success:
- *                   type: boolean
- *                   description: nos dice si eel resultado es satisfactorio o no.
- *                   example: true | false
- */
+
 router.post("/login", (req, res) => {
   try {
     User.findOne({
