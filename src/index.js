@@ -39,7 +39,7 @@ const swaggerDefinition = {
 const options = {
   swaggerDefinition,
   // Paths to files containing OpenAPI definitions
-  apis: ["C:/Users/sagar/Desktop/tfg autoescuela/backend/src/routes/*.js"],
+  apis: ["C:/Users/sagar/Desktop/tfg autoescuela/backend/src/documentation/*.js"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

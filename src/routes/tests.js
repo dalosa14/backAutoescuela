@@ -10,23 +10,46 @@ const { isAValidToken } = require("../middlewares/validations");
 //crear paquete de tests
 router.post("/createTestPackage", isAValidToken, async (req, res) => {
   let { name, title, img, desc, price } = req.body;
-
-  let testpackage = {
+  console.log(req.body);
+  if(name == ''|| title == '' ||  desc == '' ){
+    return res.status(400).json({
+      success: false,
+      data: null,
+      msg: "Hay campos vacios",
+    });
+  }
+  if(Number(price) < 0){
+    return res.status(400).json({
+      success: false,
+      data: null,
+      msg: "El precio debe ser 0 o un numero positivo",
+    });
+  }
+  let testpackageData = {
     name,
     title,
     img,
     desc,
     price,
   };
-  let tests = await Testpackage.create(testpackage);
-  await tests.setOwner(req.user.id);
-  console.log(tests);
-  res.json({ success: true });
+  let testPackage = await Testpackage.create(testpackageData);
+  await testPackage.setOwner(req.user.id);
+  return res.status(201).json({
+    success: true,
+    data: testPackage,
+    msg: "pack de tests creado correctamente",
+  });
 });
 //crear test
 router.post("/createTest", isAValidToken, async (req, res) => {
   let { name,  img, testpackageId } = req.body;
-
+  if(!name  || !testpackageId ){
+    return res.status(400).json({
+      success: false,
+      data: null,
+      msg: "Hay campos vacios",
+    });
+  }
   let testPayload = {
     name,
     img,
@@ -38,7 +61,7 @@ router.post("/createTest", isAValidToken, async (req, res) => {
 });
 //crear pregunta
 router.post("/createQuestion", isAValidToken, async (req, res) => {
-  let { name,  img, testId } = req.body;
+  let { name,question , img, testId } = req.body;
 
   let questionPayload = {
     name,
@@ -46,9 +69,9 @@ router.post("/createQuestion", isAValidToken, async (req, res) => {
     img,
    
   };
-  let question = await Question.create(questionPayload);
-  question.setTest(testId)
-  res.json({ success: true,data:question,msg:'pregunta creada' });
+  let questionModel = await Question.create(questionPayload);
+  questionModel.setTest(testId)
+  res.json({ success: true,data:questionModel,msg:'pregunta creada' });
 });
 //crear respuesta
 router.post("/createAnswer", isAValidToken, async (req, res) => {
@@ -91,7 +114,35 @@ router.get("/getAllTestsOfPackage/:id",isAValidToken, async (req, res) => {
    let tests = await testpackage.getTests()
   res.json({ success: true ,data:tests,msg:'tests del pack de tests enviados correctamente'});
 });
+router.get("/getAllQuestionsAndAnswersOfTest/:testId",isAValidToken, async (req, res) => {
+  let testId = req.params.testId
+  let questionsAndAnswers =await Question.findAll({where:{testId:testId},include: { model: Answer }})
 
+  //  let questions = await test.getQuestions()
+  res.json({ success: true ,data:questionsAndAnswers,msg:'las preguntas del test han sido enviadas'});
+});
+router.get("/getAllAnswersOfQuestion/:QuestionId",isAValidToken, async (req, res) => {
+  let QuestionId = req.params.QuestionId
+  let Questions = await Question.findOne({where:{id:QuestionId}})
+   let answers = await Questions.getAnswers()
+  res.json({ success: true ,data:answers,msg:'las preguntas del test han sido enviadas'});
+});
+router.get(
+  "/getOwnedTestPackages",
+  isAValidToken,
+  async (req, res) => {
+    
+    
+   let profile= await User.findByPk(req.user.id,{
+     attributes:['id','username','email'],
+     include:[{
+       model: Testpackage,
+       as: "testPackages"
+     }]
+   })
+   res.status(200).send({success:true,data:profile.testPackages,msg:"paquetes creados por el usuario logueado enviados."})
+  }
+);
 /**
  * @route POST api/users/profile
  * @desc Return the User's Data

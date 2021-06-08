@@ -7,23 +7,26 @@ const key = "123123";
 const User = require("../db/models/user");
 const Testpackage = require("../db/models/testpackage");
 const { isAValidToken } = require("../middlewares/validations");
-
+const validateEmail =require("../validateEmail")
 router.post("/register", async (req, res) => {
   try {
     let { username, email, password, rePassword } = req.body;
-    if (username === '' || email === ''|| password === ''|| rePassword === '') {
+    if (username === '' || email === ''|| password === ''  || rePassword === '') {
       return res.status(400).json({
         success: false,
         data: null,
         msg: "Hay campos vacios",
       });
     }
-    if (password !== rePassword) {
+    if(password.length <8){
       return res.status(400).json({
         success: false,
         data: null,
-        msg: "Las contraseñas no coinciden.",
+        msg: "La contraseña debe contener al menos 8 carácteres",
       });
+    }
+    if (password !== rePassword) {
+      
     }
     // Check for the unique Username
     let userUsername = await User.findOne({ where: { username: username } });
@@ -34,7 +37,15 @@ router.post("/register", async (req, res) => {
         msg: "El usuario ya ha sido utilizado.",
       });
     }
-
+    
+    if(!validateEmail(email)){
+      return res.status(400).json({
+      success: false,
+      data: null,
+      msg: "No es un email valido",
+    });
+    }
+    
     // Check for the Unique Email
     let userEmail = await User.findOne({ where: { email: email } });
     if (userEmail) {
@@ -60,7 +71,7 @@ router.post("/register", async (req, res) => {
         User.create(newUser).then(() => {
           return res.status(201).json({
             success: true,
-            data: "asdasd@gsdf.com",
+            data: newUser.email,
             msg: "Registro correcto.",
           });
         });
@@ -139,7 +150,7 @@ router.post("/login", (req, res) => {
               res.status(200).json({
                 success: true,
                 data: { user: {email: user.email,name: user.name}, token: `Bearer ${token}` },
-                msg: "Inicio de sesión compleatado",
+                msg: "Inicio de sesión completado",
               });
             }
           );
@@ -166,6 +177,7 @@ router.get(
     
     
    let profile= await User.findByPk(req.user.id,{
+     attributes:['id','username','email'],
      include:[{
        model: Testpackage,
        as: "testPackages"
