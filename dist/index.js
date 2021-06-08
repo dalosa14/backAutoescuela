@@ -8,6 +8,8 @@ var _user = _interopRequireDefault(require("./routes/user"));
 
 var _tests = _interopRequireDefault(require("./routes/tests"));
 
+require("@babel/core");
+
 var _relations = _interopRequireDefault(require("./db/relations"));
 
 var _cors = _interopRequireDefault(require("cors"));

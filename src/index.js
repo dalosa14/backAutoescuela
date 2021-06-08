@@ -1,6 +1,7 @@
 import express from "express";
 import user from "./routes/user";
 import tests from "./routes/tests";
+import "@babel/core";
 const sequelize = require("./db/dbConnect");
 import relations from './db/relations'
 import cors from "cors";
