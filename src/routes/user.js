@@ -140,19 +140,24 @@ router.post("/login", (req, res) => {
  * @access Private
  */
 router.get(
-  "/profile",
+  "/isAuthenticated",
   isAValidToken,
   async (req, res) => {
+    try {
+      let profile= await User.findByPk(req.user.id,{
+        attributes:['id','username','email'],
+        include:[{
+          model: Testpackage,
+          as: "testPackages"
+        }]
+      })
+      res.status(200).send({success:true,data:profile,msg:"perfil enviado correctamente"})
+    } catch (error) {
+      res.status(200).send({success:false,data:null,msg:"no es un token valido"})
+
+    }
     
-    
-   let profile= await User.findByPk(req.user.id,{
-     attributes:['id','username','email'],
-     include:[{
-       model: Testpackage,
-       as: "testPackages"
-     }]
-   })
-   res.status(200).send({success:true,data:profile,msg:"perfil enviado correctamente"})
+   
   }
 );
 module.exports = router;

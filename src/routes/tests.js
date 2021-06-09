@@ -84,8 +84,16 @@ router.post("/createTest", isAValidToken, async (req, res) => {
 });
 //crear pregunta
 router.post("/createQuestion", isAValidToken, async (req, res) => {
+
   let { name,question , img, testId } = req.body;
-  if(img != ''){
+  if(!name  || !question || !testId ){
+    return res.status(400).json({
+      success: false,
+      data: null,
+      msg: "Hay campos vacios",
+    });
+  }
+  if(img ){
     
     if (!validateUrl(img)) {
       return res.status(400).json({
@@ -107,11 +115,11 @@ router.post("/createQuestion", isAValidToken, async (req, res) => {
 });
 //crear respuesta
 router.post("/createAnswer", isAValidToken, async (req, res) => {
-  let { isTrue, name, answer, questionId } = req.body;
+  let { isTrue, answer, questionId } = req.body;
 
   let answerPayload = {
     answer,
-    name,
+    
     isTrue,
    
   };
