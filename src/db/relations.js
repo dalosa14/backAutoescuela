@@ -12,8 +12,8 @@ User.belongsToMany(TestPackage,{through: "User_testPackage",as:'testPackageToUse
 TestPackage.belongsToMany(User,{through: "User_testPackage", as:'userr'})
 
 
-Test.belongsTo(TestPackage, {as:'testPackage'})
-// TestPackage.hasMany(Test,{as:'tests' ,through: "testPackages"} )
+Test.belongsTo(TestPackage, {as:'testPackage',foreignKey: 'testPackageId'})
+TestPackage.hasMany(Test,{as:'tests' ,foreignKey: 'testPackageId'} )
 Test.hasMany(Question,{as:"questions"})
 Question.belongsTo(Test,{as:'test'})
 Question.hasMany(Answer)
