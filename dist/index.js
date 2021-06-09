@@ -1,22 +1,22 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 var _express = _interopRequireDefault(require("express"));
 
-var _user = _interopRequireDefault(require("./routes/user"));
+var _user = _interopRequireDefault(require("./routes/user.js"));
 
-var _tests = _interopRequireDefault(require("./routes/tests"));
+var _tests = _interopRequireDefault(require("./routes/tests.js"));
 
 require("core-js/stable");
 
 require("regenerator-runtime/runtime");
 
-var _relations = _interopRequireDefault(require("./db/relations"));
+var _relations = _interopRequireDefault(require("./db/relations.js"));
 
 var _cors = _interopRequireDefault(require("cors"));
 
 var _helmet = _interopRequireDefault(require("helmet"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var sequelize = require("./db/dbConnect");
 

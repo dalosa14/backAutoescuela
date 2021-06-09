@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 var _testPackage = _interopRequireDefault(require("./models/testPackage"));
 
 var _user = _interopRequireDefault(require("./models/user"));
@@ -9,8 +11,6 @@ var _test = _interopRequireDefault(require("./models/test"));
 var _question = _interopRequireDefault(require("./models/question"));
 
 var _answer = _interopRequireDefault(require("./models/answer"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _user["default"].hasMany(_testPackage["default"], {
   as: 'testPackages',
