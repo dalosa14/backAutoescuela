@@ -1,7 +1,10 @@
 import express from "express";
+require('dotenv').config()
+
 import user from "./routes/user.js";
 import tests from "./routes/tests.js";
 import 'core-js/stable';
+
 import 'regenerator-runtime/runtime';
 const sequelize = require("./db/dbConnect");
 import relations from './db/relations.js'
@@ -13,9 +16,10 @@ const swaggerJSDoc = require("swagger-jsdoc");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+console.log(process.env);
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [process.env.ORIGIN],
   })
 );
 app.use(helmet());
