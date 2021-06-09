@@ -7,11 +7,11 @@ import 'core-js/stable';
 
 import 'regenerator-runtime/runtime';
 const sequelize = require("./db/dbConnect");
-import relations from './db/relations.js'
+import  './db/relations.js'
 import cors from "cors";
 import helmet from "helmet";
-const swaggerUi = require("swagger-ui-express");
-const swaggerJSDoc = require("swagger-jsdoc");
+import options from './documentation/docConf'
+const expressJSDocSwagger = require('express-jsdoc-swagger');
 
 const app = express();
 app.use(express.json());
@@ -19,37 +19,14 @@ app.use(express.urlencoded({ extended: false }));
 console.log(process.env.ORIGIN);
 app.use(
   cors({
-    origin: [process.env.ORIGIN],
+    origin: [process.env.ORIGIN || 'http://localhost:5000'],
   })
 );
 app.use(helmet());
 app.set("port", process.env.PORT || 5000);
 app.use("/user", user);
 app.use("/tests", tests);
-const swaggerDefinition = {
-  openapi: "3.0.0",
-  info: {
-    title: "Express API for Autoescuela",
-    version: "1.0.0",
-    description:
-      'This is a REST API application made with Express.',
-  },
-  servers: [
-    {
-      url: 'http://localhost:8080/',
-      description: 'Development server',
-    },
-]
-};
-
-const options = {
-  swaggerDefinition,
-  // Paths to files containing OpenAPI definitions
-  apis: ["C:/Users/sagar/Desktop/tfg autoescuela/backend/src/documentation/*.js"],
-};
-
-const swaggerSpec = swaggerJSDoc(options);
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+expressJSDocSwagger(app)(options);
 
 app.listen(app.get("port"), () => {
   sequelize

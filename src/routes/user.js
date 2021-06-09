@@ -7,18 +7,23 @@ const key = "123123";
 const User = require("../db/models/user.js");
 const Testpackage = require("../db/models/testPackage.js");
 const { isAValidToken } = require("../middlewares/validations.js");
-const validateEmail =require("../validations/validateEmail.js")
+const validateEmail = require("../validations/validateEmail.js");
 router.post("/register", async (req, res) => {
   try {
     let { username, email, password, rePassword } = req.body;
-    if (username === '' || email === ''|| password === ''  || rePassword === '') {
+    if (
+      username === "" ||
+      email === "" ||
+      password === "" ||
+      rePassword === ""
+    ) {
       return res.status(400).json({
         success: false,
         data: null,
         msg: "Hay campos vacios",
       });
     }
-    if(password.length <8){
+    if (password.length < 8) {
       return res.status(400).json({
         success: false,
         data: null,
@@ -26,7 +31,6 @@ router.post("/register", async (req, res) => {
       });
     }
     if (password !== rePassword) {
-      
     }
     // Check for the unique Username
     let userUsername = await User.findOne({ where: { username: username } });
@@ -37,15 +41,15 @@ router.post("/register", async (req, res) => {
         msg: "El usuario ya ha sido utilizado.",
       });
     }
-    
-    if(!validateEmail(email)){
+
+    if (!validateEmail(email)) {
       return res.status(400).json({
-      success: false,
-      data: null,
-      msg: "No es un email valido",
-    });
+        success: false,
+        data: null,
+        msg: "No es un email valido",
+      });
     }
-    
+
     // Check for the Unique Email
     let userEmail = await User.findOne({ where: { email: email } });
     if (userEmail) {
@@ -87,7 +91,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-
 router.post("/login", (req, res) => {
   try {
     User.findOne({
@@ -107,7 +110,6 @@ router.post("/login", (req, res) => {
           // User's password is correct and we need to send the JSON Token for that user
           const payload = {
             id: user.id,
-            
           };
           jwt.sign(
             payload,
@@ -118,7 +120,10 @@ router.post("/login", (req, res) => {
             (err, token) => {
               res.status(200).json({
                 success: true,
-                data: { user: {email: user.email,name: user.name}, token: `Bearer ${token}` },
+                data: {
+                  user: { email: user.email, name: user.name },
+                  token: `Bearer ${token}`,
+                },
                 msg: "Inicio de sesión completado",
               });
             }
@@ -135,29 +140,56 @@ router.post("/login", (req, res) => {
 });
 
 /**
- * @route POST api/users/profile
- * @desc Return the User's Data
- * @access Private
- */
-router.get(
-  "/isAuthenticated",
-  isAValidToken,
-  async (req, res) => {
-    try {
-      let profile= await User.findByPk(req.user.id,{
-        attributes:['id','username','email'],
-        include:[{
-          model: Testpackage,
-          as: "testPackages"
-        }]
-      })
-      res.status(200).send({success:true,data:profile,msg:"perfil enviado correctamente"})
-    } catch (error) {
-      res.status(200).send({success:false,data:null,msg:"no es un token valido"})
+ * GET /user/isAuthenticated
+ * @summary retorna el perfil del usuario logueado
+ * @security BearerAuth
+ * @tags usuario
+ * @return {object} 200 - success response - application/json
+ * @example response - 200 - success response example
+ * 
+ *   {
+ *     "success": true,
+ *     "data": {
+ *       "id": 5,
+ *        "username": "123123",
+ *        "email": "123123@gmail.com"
+ *        },
+ *     "msg": "perfil enviado correctamente"
+ *   }
+ * 
 
-    }
-    
-   
+ * 
+ *
+ *
+ * @return {object} 400 - Bad request response - application/json
+ * @example response - 400 - success response example
+ * 
+ *   {
+ *     "success": true,
+ *     "data": {
+ *       "id": 5,
+ *        "username": "123123",
+ *        "email": "123123@gmail.com"
+ *        },
+ *     "msg": "perfil enviado correctamente"
+ *   }
+ */
+router.get("/isAuthenticated", isAValidToken, async (req, res) => {
+  try {
+    let profile = await User.findByPk(req.user.id, {
+      attributes: ["id", "username", "email"],
+    });
+    res
+      .status(200)
+      .send({
+        success: true,
+        data: profile,
+        msg: "perfil enviado correctamente",
+      });
+  } catch (error) {
+    res
+      .status(200)
+      .send({ success: false, data: null, msg: "no es un token valido" });
   }
-);
+});
 module.exports = router;
