@@ -59,7 +59,7 @@ const validateUrl =require("../validations/validateUrl.js")
   "data": null,
   "msg": "El precio debe ser 0 o un numero positivo"
 }
- * @example response - 400 - Url no valida
+ * @example response - 400 - Url no valida.
  * 
  *   {
   "success": false,
