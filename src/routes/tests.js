@@ -8,7 +8,65 @@ const Answer = require("../db/models/answer.js");
 const { isAValidToken } = require("../middlewares/validations.js");
 const validateUrl =require("../validations/validateUrl.js")
 
-//crear paquete de tests
+/**
+ * A TestPack
+ * @typedef {object} TestPack
+ * @property {string} name.required - El nombre
+ * @property {string} title.required - El titulo visible
+ * @property {string} img - La imagen
+ * @property {string} desc.required - La descripcion del pack de tests
+ * @property {string} price.required - El precio del pack
+ */
+/**
+ * POST /tests/createTestPackage
+ * @summary crea un nuevo pack de tests
+ * @tags tests
+ *   @param {TestPack} request.body.required - informacion de creación del pack dee tests - application/json
+ * @return {object} 201 - success response - application/json
+ * @example response - 201 - pack de tests creado correctamente
+ * 
+{
+  "success": true,
+  "data": {
+    "id": 35,
+    "name": "prueba2",
+    "title": "prueb2",
+    "img": "https://elements-assets.envato.com/apps/storefront/audioCover01-8c537039e711097cca2b.svg",
+    "desc": "hola musdfy buenas",
+    "price": "0",
+    "updatedAt": "2021-06-09T17:54:25.390Z",
+    "createdAt": "2021-06-09T17:54:25.102Z",
+    "ownerId": 5
+  },
+  "msg": "pack de tests creado correctamente"
+}
+ * 
+
+ * 
+ *
+ *
+ * @return {object} 400 - Bad request response - application/json
+ * @example response - 400 - Credenciales incorrectas.
+ * 
+ *   {
+  "msg": "Credenciales incorrectas.",
+  "success": false
+}
+ * @example response - 400 - El precio debe ser 0 o un numero positivo.
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "El precio debe ser 0 o un numero positivo"
+}
+ * @example response - 400 - Url no valida
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "Url no valida"
+}
+ */
 router.post("/createTestPackage", isAValidToken, async (req, res) => {
   let { name, title, img, desc, price } = req.body;
   if(img != ''){

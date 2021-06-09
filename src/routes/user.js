@@ -8,14 +8,82 @@ const User = require("../db/models/user.js");
 const Testpackage = require("../db/models/testPackage.js");
 const { isAValidToken } = require("../middlewares/validations.js");
 const validateEmail = require("../validations/validateEmail.js");
+/**
+ * A Register
+ * @typedef {object} Register
+ * @property {string} name.required - The email
+ * @property {string} username.required - The password
+ * @property {string} email.required - The password
+ * @property {string} password.required - The password
+ * @property {string} rePassword.required - The password
+ */
+/**
+ * POST /user/register
+ * @summary Registra un usuario en la base de datos
+ * @tags usuario
+ *   @param {Register} request.body.required - informacion de registro - application/json
+ * @return {object} 201 - success response - application/json
+ * @example response - 201 - success response example
+ * 
+
+  {
+  "success": true,
+  "data": "sagar55544@gmail.com",
+  "msg": "Registro correcto."
+}
+
+ * @return {object} 400 - Bad request response - application/json
+ * @example response - 400 - La contraseña debe contener al menos 8 carácteres
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "La contraseña debe contener al menos 8 carácteres"
+}
+ * @example response - 400 - El email introducido ya está en uso.
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "El email introducido ya está en uso."
+}
+ * @example response - 400 - Hay campos vacios
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "Hay campos vacios"
+}
+ * @example response - 400 - La contraseña debe contener al menos 8 carácteres
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "La contraseña debe contener al menos 8 carácteres"
+}
+ * @example response - 400 - El usuario ya ha sido utilizado.
+ * 
+ *  {
+  "success": false,
+  "data": null,
+  "msg": "El usuario ya ha sido utilizado."
+}
+ * @example response - 400 - No es un email valido
+ * 
+ *  {
+  "success": false,
+  "data": null,
+  "msg": "No es un email valido"
+}
+ */
 router.post("/register", async (req, res) => {
   try {
     let { username, email, password, rePassword } = req.body;
     if (
-      username === "" ||
-      email === "" ||
-      password === "" ||
-      rePassword === ""
+      !username  ||
+      !email  ||
+      !password  ||
+      !rePassword 
     ) {
       return res.status(400).json({
         success: false,
@@ -90,14 +158,50 @@ router.post("/register", async (req, res) => {
     });
   }
 });
+/**
+ * A Login
+ * @typedef {object} Login
+ * @property {string} email.required - The email
+ * @property {string} password.required - The password
+ */
+/**
+ * POST /user/login
+ * @summary retorna el perfil del usuario logueado
+ * @tags usuario
+ *   @param {Login} request.body.required - informacion de logueo - application/json
+ * @return {object} 200 - success response - application/json
+ * @example response - 200 - success response example
+ * 
+{
+  "success": true,
+  "data": {
+    "user": {
+      "email": "123123@gmail.com"
+    },
+    "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjIzMjU3NjgyLCJleHAiOjE2MjM4NjI0ODJ9.wWs_63y33u3UAlxYPHv7BQJZ-GyN0kRucVqimSB_LB4"
+  },
+  "msg": "Inicio de sesión completado"
+}
+ * 
 
+ * 
+ *
+ *
+ * @return {object} 400 - Bad request response - application/json
+ * @example response - 400 - Credenciales incorrectas.
+ * 
+ *   {
+  "msg": "Credenciales incorrectas.",
+  "success": false
+}
+ */
 router.post("/login", (req, res) => {
   try {
     User.findOne({
       where: { email: req.body.email },
     }).then((user) => {
       if (!user) {
-        return res.status(404).json({
+        return res.status(400).json({
           msg: "Credenciales incorrectas.",
           data: null,
           success: false,
@@ -129,7 +233,7 @@ router.post("/login", (req, res) => {
             }
           );
         } else {
-          return res.status(404).json({
+          return res.status(400).json({
             msg: "Credenciales incorrectas.",
             success: false,
           });
