@@ -16,7 +16,7 @@ const swaggerJSDoc = require("swagger-jsdoc");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-console.log(process.env);
+console.log(process.env.ORIGIN);
 app.use(
   cors({
     origin: [process.env.ORIGIN],
