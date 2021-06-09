@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 console.log(process.env.ORIGIN);
 app.use(
   cors({
-    origin: ['https://thegoodtest.onrender.com/'],
+    origin: [process.env.ORIGIN],
   })
 );
 app.use(helmet());
