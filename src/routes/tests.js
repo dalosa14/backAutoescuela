@@ -619,19 +619,47 @@ router.get("/getAllQuestionsAndAnswersOfTest/:testId",isAValidToken, async (req,
   //  let questions = await test.getQuestions()
   res.json({ success: true ,data:questionsAndAnswers,msg:'las preguntas del test han sido enviadas'});
 });
-router.get("/getAllAnswersOfQuestion/:QuestionId",isAValidToken, async (req, res) => {
-  let QuestionId = req.params.QuestionId
-  let Questions = await Question.findOne({where:{id:QuestionId}})
-   let answers = await Questions.getAnswers()
-  res.json({ success: true ,data:answers,msg:'las preguntas del test han sido enviadas'});
-});
+
+// router.get("/getAllAnswersOfQuestion/:QuestionId",isAValidToken, async (req, res) => {
+//   let QuestionId = req.params.QuestionId
+//   let Questions = await Question.findOne({where:{id:QuestionId}})
+//    let answers = await Questions.getAnswers()
+//   res.json({ success: true ,data:answers,msg:'las preguntas del test han sido enviadas'});
+// });
+
+
+/**
+ * GET /tests/getOwnedTestPackages
+ * @summary se reciben todos los packs de tests creados por el usuario logueado
+ * @tags tests
+
+ *  
+ * @security BearerAuth
+ * @return {object} 200 - success response - application/json
+ * @example response - 200 - paquetes creados por el usuario logueado enviados.
+ * 
+{"success":true,"data":[{"id":5,"name":"Permiso B","title":"Permiso B 1","img":"https://autoescuelas-premium.com/wp-content/uploads/2019/01/manual-del-permiso-b-del-carnet-de-conducir.jpg","desc":"Con este pack estrás más preparado para aprobar el teorico del permiso B","price":0,"createdAt":"2021-06-09T22:23:08.000Z","updatedAt":"2021-06-09T22:23:08.000Z","ownerId":5},{"id":15,"name":"asd","title":"asd","img":"","desc":"dasd","price":0,"createdAt":"2021-06-09T23:04:28.000Z","updatedAt":"2021-06-09T23:04:28.000Z","ownerId":5}],"msg":"paquetes creados por el usuario logueado enviados."}
+ * 
+
+ * 
+ *
+ *
+ * @return {object} 400 - Bad request response - application/json
+
+ * @example response - 400 - error
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "error "
+}
+ */
 router.get(
   "/getOwnedTestPackages",
   isAValidToken,
   async (req, res) => {
-    
-    
-   let profile= await User.findByPk(req.user.id,{
+    try {
+         let profile= await User.findByPk(req.user.id,{
      attributes:['id','username','email'],
      include:[{
        model: Testpackage,
@@ -639,12 +667,14 @@ router.get(
      }]
    })
    res.status(200).send({success:true,data:profile.testPackages,msg:"paquetes creados por el usuario logueado enviados."})
-  }
+  
+    } catch (error) {
+      res.status(400).send({success:true,data:null,msg:"error"})
+
+    }
+    
+}
 );
-/**
- * @route POST api/users/profile
- * @desc Return the User's Data
- * @access Private
- */
+
 
 module.exports = router;
