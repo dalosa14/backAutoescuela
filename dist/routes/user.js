@@ -14,7 +14,7 @@ var bcrypt = require("bcrypt");
 
 var jwt = require("jsonwebtoken");
 
-var passport = require("passport");
+
 
 var key = "123123";
 

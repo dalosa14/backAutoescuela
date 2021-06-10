@@ -42,6 +42,13 @@ const validateUrl =require("../validations/validateUrl.js")
   },
   "msg": "pack de tests creado correctamente"
 }
+ * @example response - 200 - token no valido
+ * 
+
+  "success": false,
+  "msg": "token no valido",
+  "data": null
+}
  * 
 
  * 
