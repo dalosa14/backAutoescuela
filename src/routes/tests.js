@@ -571,6 +571,47 @@ router.get("/getAllTestsOfPackage/:id",isAValidToken, async (req, res) => {
   }
 
 });
+/**
+ * GET /tests/getAllQuestionsAndAnswersOfTest/{testId}
+ * @summary se reciben todos los tests comprados del usuario logueado
+ * @tags tests
+ * @param {string} testId.query.required - Id del test del que queremos todos sus preguntas y respuestas 
+
+ *  
+ * @security BearerAuth
+ * @return {object} 200 - success response - application/json
+ * @example response - 200 - tests del pack de tests enviados correctamente
+ * 
+{
+  "success": true,
+  "data": [
+    {
+      "id": 5,
+      "name": "El volante",
+      "img": "https://www.lavanguardia.com/files/og_thumbnail/uploads/2019/02/01/5f15f6937f64b.jpeg",
+      "createdAt": "2021-06-09T10:23:00.000Z",
+      "updatedAt": "2021-06-09T10:23:00.000Z",
+      "testPackageId": 5,
+      "testpackageId": 5
+    }
+  ],
+  "msg": "tests del pack de tests enviados correctamente"
+}
+ * 
+
+ * 
+ *
+ *
+ * @return {object} 400 - Bad request response - application/json
+
+ * @example response - 400 - error
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "error "
+}
+ */
 router.get("/getAllQuestionsAndAnswersOfTest/:testId",isAValidToken, async (req, res) => {
   let testId = req.params.testId
   let questionsAndAnswers =await Question.findAll({where:{testId:testId},include: { model: Answer }})

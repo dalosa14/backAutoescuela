@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 console.log(process.env.ORIGIN);
 app.use(
   cors({
-    origin: [process.env.ORIGIN || 'http://localhost:5000'],
+    origin: [process.env.ORIGIN , 'http://localhost:3000'],
   })
 );
 app.use(helmet());
