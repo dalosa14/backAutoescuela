@@ -32,12 +32,14 @@ _testPackage["default"].belongsToMany(_user["default"], {
   as: 'userr'
 });
 
-_testPackage["default"].hasMany(_test["default"], {
-  as: 'tests'
+_test["default"].belongsTo(_testPackage["default"], {
+  as: 'testPackage',
+  foreignKey: 'testPackageId'
 });
 
-_test["default"].belongsTo(_testPackage["default"], {
-  as: 'testPackage'
+_testPackage["default"].hasMany(_test["default"], {
+  as: 'tests',
+  foreignKey: 'testPackageId'
 });
 
 _test["default"].hasMany(_question["default"], {

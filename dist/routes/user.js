@@ -14,8 +14,6 @@ var bcrypt = require("bcrypt");
 
 var jwt = require("jsonwebtoken");
 
-
-
 var key = "123123";
 
 var User = require("../db/models/user.js");
@@ -26,6 +24,76 @@ var _require = require("../middlewares/validations.js"),
     isAValidToken = _require.isAValidToken;
 
 var validateEmail = require("../validations/validateEmail.js");
+/**
+ * A Register
+ * @typedef {object} Register
+ * @property {string} name.required - The email
+ * @property {string} username.required - The password
+ * @property {string} email.required - The password
+ * @property {string} password.required - The password
+ * @property {string} rePassword.required - The password
+ */
+
+/**
+ * POST /user/register
+ * @summary Registra un usuario en la base de datos
+ * @tags usuario
+ *   @param {Register} request.body.required - informacion de registro - application/json
+ * @return {object} 201 - success response - application/json
+ * @example response - 201 - success response example
+ * 
+
+  {
+  "success": true,
+  "data": "sagar55544@gmail.com",
+  "msg": "Registro correcto."
+}
+
+ * @return {object} 400 - Bad request response - application/json
+ * @example response - 400 - La contraseña debe contener al menos 8 carácteres
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "La contraseña debe contener al menos 8 carácteres"
+}
+ * @example response - 400 - El email introducido ya está en uso.
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "El email introducido ya está en uso."
+}
+ * @example response - 400 - Hay campos vacios
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "Hay campos vacios"
+}
+ * @example response - 400 - La contraseña debe contener al menos 8 carácteres
+ * 
+ *   {
+  "success": false,
+  "data": null,
+  "msg": "La contraseña debe contener al menos 8 carácteres"
+}
+ * @example response - 400 - El usuario ya ha sido utilizado.
+ * 
+ *  {
+  "success": false,
+  "data": null,
+  "msg": "El usuario ya ha sido utilizado."
+}
+ * @example response - 400 - No es un email valido
+ * 
+ *  {
+  "success": false,
+  "data": null,
+  "msg": "No es un email valido"
+}
+ */
+
 
 router.post("/register", /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
@@ -38,7 +106,7 @@ router.post("/register", /*#__PURE__*/function () {
             _context.prev = 0;
             _req$body = req.body, username = _req$body.username, email = _req$body.email, password = _req$body.password, rePassword = _req$body.rePassword;
 
-            if (!(username === '' || email === '' || password === '' || rePassword === '')) {
+            if (!(!username || !email || !password || !rePassword)) {
               _context.next = 4;
               break;
             }
@@ -167,6 +235,45 @@ router.post("/register", /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
+/**
+ * A Login
+ * @typedef {object} Login
+ * @property {string} email.required - The email
+ * @property {string} password.required - The password
+ */
+
+/**
+ * POST /user/login
+ * @summary retorna el perfil del usuario logueado
+ * @tags usuario
+ *   @param {Login} request.body.required - informacion de logueo - application/json
+ * @return {object} 200 - success response - application/json
+ * @example response - 200 - success response example
+ * 
+{
+  "success": true,
+  "data": {
+    "user": {
+      "email": "123123@gmail.com"
+    },
+    "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjIzMjU3NjgyLCJleHAiOjE2MjM4NjI0ODJ9.wWs_63y33u3UAlxYPHv7BQJZ-GyN0kRucVqimSB_LB4"
+  },
+  "msg": "Inicio de sesión completado"
+}
+ * 
+
+ * 
+ *
+ *
+ * @return {object} 400 - Bad request response - application/json
+ * @example response - 400 - Credenciales incorrectas.
+ * 
+ *   {
+  "msg": "Credenciales incorrectas.",
+  "success": false
+}
+ */
+
 router.post("/login", function (req, res) {
   try {
     User.findOne({
@@ -175,7 +282,7 @@ router.post("/login", function (req, res) {
       }
     }).then(function (user) {
       if (!user) {
-        return res.status(404).json({
+        return res.status(400).json({
           msg: "Credenciales incorrectas.",
           data: null,
           success: false
@@ -205,7 +312,7 @@ router.post("/login", function (req, res) {
             });
           });
         } else {
-          return res.status(404).json({
+          return res.status(400).json({
             msg: "Credenciales incorrectas.",
             success: false
           });
@@ -215,41 +322,79 @@ router.post("/login", function (req, res) {
   } catch (error) {}
 });
 /**
- * @route POST api/users/profile
- * @desc Return the User's Data
- * @access Private
+ * GET /user/isAuthenticated
+ * @summary retorna el perfil del usuario logueado
+ * @security BearerAuth
+ * @tags usuario
+ * @return {object} 200 - success response - application/json
+ * @example response - 200 - success response example
+ * 
+ *   {
+ *     "success": true,
+ *     "data": {
+ *       "id": 5,
+ *        "username": "123123",
+ *        "email": "123123@gmail.com"
+ *        },
+ *     "msg": "perfil enviado correctamente"
+ *   }
+ * 
+
+ * 
+ *
+ *
+ * @return {object} 400 - Bad request response - application/json
+ * @example response - 400 - success response example
+ * 
+ *   {
+ *     "success": true,
+ *     "data": {
+ *       "id": 5,
+ *        "username": "123123",
+ *        "email": "123123@gmail.com"
+ *        },
+ *     "msg": "perfil enviado correctamente"
+ *   }
  */
 
-router.get("/profile", isAValidToken, /*#__PURE__*/function () {
+router.get("/isAuthenticated", isAValidToken, /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
     var profile;
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
+            _context2.prev = 0;
+            _context2.next = 3;
             return User.findByPk(req.user.id, {
-              attributes: ['id', 'username', 'email'],
-              include: [{
-                model: Testpackage,
-                as: "testPackages"
-              }]
+              attributes: ["id", "username", "email"]
             });
 
-          case 2:
+          case 3:
             profile = _context2.sent;
             res.status(200).send({
               success: true,
               data: profile,
               msg: "perfil enviado correctamente"
             });
+            _context2.next = 10;
+            break;
 
-          case 4:
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2["catch"](0);
+            res.status(200).send({
+              success: false,
+              data: null,
+              msg: "no es un token valido"
+            });
+
+          case 10:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[0, 7]]);
   }));
 
   return function (_x3, _x4) {

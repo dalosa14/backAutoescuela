@@ -23,9 +23,10 @@ var isAValidToken = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            _context.prev = 0;
             token = req.headers.authorization.split(" ")[1];
             _jwt$verify = jwt.verify(token, key), id = _jwt$verify.id;
-            _context.next = 4;
+            _context.next = 5;
             return User.findOne({
               where: {
                 id: id
@@ -35,7 +36,7 @@ var isAValidToken = /*#__PURE__*/function () {
               raw: true
             });
 
-          case 4:
+          case 5:
             user = _context.sent;
             console.log(user);
 
@@ -44,13 +45,25 @@ var isAValidToken = /*#__PURE__*/function () {
             }
 
             next();
+            _context.next = 15;
+            break;
 
-          case 8:
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context["catch"](0);
+            res.status(200).send({
+              success: false,
+              msg: 'token no valido',
+              data: null
+            });
+            next(_context.t0);
+
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[0, 11]]);
   }));
 
   return function isAValidToken(_x, _x2, _x3) {
